@@ -6,6 +6,7 @@ import java.util.List;
 import fun.masttf.bean.TableInfo;
 import fun.masttf.builder.BuildBase;
 import fun.masttf.builder.BuildPo;
+import fun.masttf.builder.BuildQuery;
 import fun.masttf.builder.BuildTable;
 
 public class easyJavaApplication {
@@ -14,6 +15,7 @@ public class easyJavaApplication {
         BuildBase.execute();
         for (TableInfo tableInfo : tableInfoList) {
             BuildPo.execute(tableInfo);
+            BuildQuery.execute(tableInfo);
         }
     }
 }

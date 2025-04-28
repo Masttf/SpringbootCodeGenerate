@@ -14,7 +14,7 @@ public class PropertiesUtils {
         InputStream is = null;
         try {
             is = PropertiesUtils.class.getClassLoader().getResourceAsStream("application.properties");
-            props.load(new InputStreamReader(is, "utf8"));
+            props.load(new InputStreamReader(is, "UTF-8"));
             for (String key : props.stringPropertyNames()) {
                 PROPER_MAP.put(key, props.getProperty(key));
             }

@@ -33,7 +33,7 @@ public class BuildPo {
         BufferedWriter bw = null;
         try {
             out = new FileOutputStream(poFile);
-            outw = new OutputStreamWriter(out, "utf8");
+            outw = new OutputStreamWriter(out, "UTF-8");
             bw = new BufferedWriter(outw);
 
             bw.write("package " + Constants.PACKAGE_PO + ";");

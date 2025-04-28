@@ -50,10 +50,11 @@ public class BuildTable {
                 if (Constants.IGNORE_TABLE_PERFIX) {
                     beanName = tableName.substring(tableName.indexOf("_") + 1);
                 }
+                beanName = processField(beanName, true);
                 tableInfo.setTableName(tableName);
                 tableInfo.setComment(tableComment);
                 tableInfo.setBeanName(beanName);
-                tableInfo.setBeanParamName(beanName + Constants.SUFFIX_BEAN_PARAM);
+                tableInfo.setBeanParamName(beanName + Constants.SUFFIX_BEAN_QUERY);
                 readFieldInfo(tableInfo);
                 getKeyIndexInfo(tableInfo);
                 tableInfoList.add(tableInfo);

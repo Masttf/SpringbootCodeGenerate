@@ -4,7 +4,10 @@ import fun.masttf.utils.PropertiesUtils;
 
 public class Constants {
     public static Boolean IGNORE_TABLE_PERFIX;
-    public static String SUFFIX_BEAN_PARAM;
+    public static String SUFFIX_BEAN_QUERY;
+    public static String SUFFIX_BEAN_QUERY_FUZZY;
+    public static String SUFFIX_BEAN_QUERY_TIME_START;
+    public static String SUFFIX_BEAN_QUERY_TIME_END;
     public static String AUTHER_COMMENT;
     public static String PATH_JAVA = "java";
     public static String PATH_RESOURCES = "resources";
@@ -12,11 +15,13 @@ public class Constants {
     public static String PATH_PO;
     public static String PATH_UTILS;
     public static String PATH_ENUMS;
+    public static String PATH_QUERY;
 
     public static String PACKAGE_BASE;
     public static String PACKAGE_PO;
     public static String PACKAGE_UTILS;
     public static String PACKAGE_ENUMS;
+    public static String PACKAGE_QUERY;
 
     // 需要忽略的属性
     public static String IGNORE_BEAN_TOJSON_FILED;
@@ -35,6 +40,7 @@ public class Constants {
         IGNORE_BEAN_TOJSON_FILED = PropertiesUtils.getProperty("ignore.bean.tojson.filed");
         IGNORE_BEAN_TOJSON_EXPRESSION = PropertiesUtils.getProperty("ignore.bean.tojson.expression");
         IGNORE_BEAN_TOJSON_CLASS = PropertiesUtils.getProperty("ignore.bean.tojson.class");
+
         // 日期序列化，反序列化
         BEAN_DATE_FORMAT_EXPRESSION = PropertiesUtils.getProperty("bean.date.format.expression");
         BEAN_DATE_FORMAT_CLASS = PropertiesUtils.getProperty("bean.date.format.class");
@@ -42,17 +48,23 @@ public class Constants {
         BEAN_DATE_UNFORMAT_CLASS = PropertiesUtils.getProperty("bean.date.unformat.class");
 
         IGNORE_TABLE_PERFIX = Boolean.valueOf(PropertiesUtils.getProperty("ignore.table.perfix"));
-        SUFFIX_BEAN_PARAM = PropertiesUtils.getProperty("suffix.bean.param");
+        SUFFIX_BEAN_QUERY = PropertiesUtils.getProperty("suffix.bean.query");
+        SUFFIX_BEAN_QUERY_FUZZY = PropertiesUtils.getProperty("suffix.bean.query.fuzzy");
+        SUFFIX_BEAN_QUERY_TIME_START = PropertiesUtils.getProperty("suffix.bean.query.time.start");
+        SUFFIX_BEAN_QUERY_TIME_END = PropertiesUtils.getProperty("suffix.bean.query.time.end");
+
         PACKAGE_BASE = PropertiesUtils.getProperty("package.base");
         PACKAGE_PO = PACKAGE_BASE + '.' + PropertiesUtils.getProperty("package.po");
         PACKAGE_UTILS = PACKAGE_BASE + '.' + PropertiesUtils.getProperty("package.utils");
         PACKAGE_ENUMS = PACKAGE_BASE + '.' + PropertiesUtils.getProperty("package.enums");
+        PACKAGE_QUERY = PACKAGE_BASE + '.' + PropertiesUtils.getProperty("package.query");
 
         PATH_BASE = PropertiesUtils.getProperty("path.base");
         PATH_BASE = PATH_BASE + PATH_JAVA;
         PATH_PO = PATH_BASE + "/" + PACKAGE_PO.replace('.', '/');
         PATH_UTILS = PATH_BASE + "/" + PACKAGE_UTILS.replace('.', '/');
         PATH_ENUMS = PATH_BASE + "/" + PACKAGE_ENUMS.replace('.', '/');
+        PATH_QUERY = PATH_BASE + "/" + PACKAGE_QUERY.replace('.', '/');
     }
 
     public static final String[] SQL_DATE_TIIME_TYPES = new String[] { "datetime", "timestamp" };
