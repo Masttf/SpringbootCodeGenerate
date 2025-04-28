@@ -10,21 +10,49 @@ public class Constants {
     public static String PATH_RESOURCES = "resources";
     public static String PATH_BASE;
     public static String PATH_PO;
+    public static String PATH_UTILS;
+    public static String PATH_ENUMS;
+
     public static String PACKAGE_BASE;
     public static String PACKAGE_PO;
+    public static String PACKAGE_UTILS;
+    public static String PACKAGE_ENUMS;
+
+    // 需要忽略的属性
+    public static String IGNORE_BEAN_TOJSON_FILED;
+    public static String IGNORE_BEAN_TOJSON_EXPRESSION;
+    public static String IGNORE_BEAN_TOJSON_CLASS;
+    // 日期序列化，反序列化
+    public static String BEAN_DATE_FORMAT_EXPRESSION;
+    public static String BEAN_DATE_FORMAT_CLASS;
+    public static String BEAN_DATE_UNFORMAT_EXPRESSION;
+    public static String BEAN_DATE_UNFORMAT_CLASS;
+
     static {
         AUTHER_COMMENT = PropertiesUtils.getProperty("auther.comment");
+
+        // 需要忽略的属性
+        IGNORE_BEAN_TOJSON_FILED = PropertiesUtils.getProperty("ignore.bean.tojson.filed");
+        IGNORE_BEAN_TOJSON_EXPRESSION = PropertiesUtils.getProperty("ignore.bean.tojson.expression");
+        IGNORE_BEAN_TOJSON_CLASS = PropertiesUtils.getProperty("ignore.bean.tojson.class");
+        // 日期序列化，反序列化
+        BEAN_DATE_FORMAT_EXPRESSION = PropertiesUtils.getProperty("bean.date.format.expression");
+        BEAN_DATE_FORMAT_CLASS = PropertiesUtils.getProperty("bean.date.format.class");
+        BEAN_DATE_UNFORMAT_EXPRESSION = PropertiesUtils.getProperty("bean.date.unformat.expression");
+        BEAN_DATE_UNFORMAT_CLASS = PropertiesUtils.getProperty("bean.date.unformat.class");
+
         IGNORE_TABLE_PERFIX = Boolean.valueOf(PropertiesUtils.getProperty("ignore.table.perfix"));
         SUFFIX_BEAN_PARAM = PropertiesUtils.getProperty("suffix.bean.param");
-        PATH_BASE = PropertiesUtils.getProperty("path.base");
-        PATH_BASE = PATH_BASE + PATH_JAVA + "/" + PropertiesUtils.getProperty("package.base");
-        PATH_BASE = PATH_BASE.replace('.', '/');
-
-        PATH_PO = PATH_BASE + "/" + PropertiesUtils.getProperty("package.po").replace('.', '/');
-
         PACKAGE_BASE = PropertiesUtils.getProperty("package.base");
         PACKAGE_PO = PACKAGE_BASE + '.' + PropertiesUtils.getProperty("package.po");
+        PACKAGE_UTILS = PACKAGE_BASE + '.' + PropertiesUtils.getProperty("package.utils");
+        PACKAGE_ENUMS = PACKAGE_BASE + '.' + PropertiesUtils.getProperty("package.enums");
 
+        PATH_BASE = PropertiesUtils.getProperty("path.base");
+        PATH_BASE = PATH_BASE + PATH_JAVA;
+        PATH_PO = PATH_BASE + "/" + PACKAGE_PO.replace('.', '/');
+        PATH_UTILS = PATH_BASE + "/" + PACKAGE_UTILS.replace('.', '/');
+        PATH_ENUMS = PATH_BASE + "/" + PACKAGE_ENUMS.replace('.', '/');
     }
 
     public static final String[] SQL_DATE_TIIME_TYPES = new String[] { "datetime", "timestamp" };

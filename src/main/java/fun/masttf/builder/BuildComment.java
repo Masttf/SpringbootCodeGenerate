@@ -26,7 +26,7 @@ public class BuildComment {
     public static void createFieldComment(BufferedWriter bw, String fieldComment) throws Exception {
         bw.write("\t/**");
         bw.newLine();
-        bw.write("\t * " + fieldComment == null ? "" : fieldComment);
+        bw.write("\t * " + (fieldComment == null ? "" : fieldComment));
         bw.newLine();
         bw.write("\t */");
         bw.newLine();
