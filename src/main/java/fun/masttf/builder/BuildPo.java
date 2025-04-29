@@ -140,7 +140,7 @@ public class BuildPo {
                             + ", DateTimePatternEnum.YYYY_MM_DD.getPattern())";
                 }
                 bw.write("\t\t\t\"" + field.getComment() + " " + field.getPropertyName() + "=\" + "
-                        + propertyName + "+ \", \" +");
+                        + "(" + field.getPropertyName() + " == null ? \"空\" : " + propertyName + ")" + "+ \", \" +");
                 bw.newLine();
             }
             bw.write("\t\t\t\"]\";");
