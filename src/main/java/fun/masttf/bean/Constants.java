@@ -19,6 +19,7 @@ public class Constants {
     public static String PATH_ENUMS;
     public static String PATH_QUERY;
     public static String PATH_MAPPER;
+    public static String PATH_MAPPER_XML;
 
     public static String PACKAGE_BASE;
     public static String PACKAGE_PO;
@@ -72,6 +73,9 @@ public class Constants {
         PATH_ENUMS = PATH_BASE + "/" + PACKAGE_ENUMS.replace('.', '/');
         PATH_QUERY = PATH_BASE + "/" + PACKAGE_QUERY.replace('.', '/');
         PATH_MAPPER = PATH_BASE + "/" + PACKAGE_MAPPER.replace('.', '/');
+
+        PATH_MAPPER_XML = PropertiesUtils.getProperty("path.base") + PATH_RESOURCES + "/"
+                + PACKAGE_MAPPER.replace('.', '/');
     }
 
     public static final String[] SQL_DATE_TIIME_TYPES = new String[] { "datetime", "timestamp" };
@@ -84,6 +88,6 @@ public class Constants {
     public static final String[] SQL_LONG_TYPE = new String[] { "bigint" };
 
     public static void main(String[] args) {
-        System.out.println(PACKAGE_PO);
+        System.out.println(PATH_MAPPER_XML);
     }
 }

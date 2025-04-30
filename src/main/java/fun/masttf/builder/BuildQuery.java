@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -94,31 +95,15 @@ public class BuildQuery {
                     bw.newLine();
                 }
             }
-            tableInfo.getFieldList().addAll(fieldExtends);
-            for (FieldInfo field : tableInfo.getFieldList()) {
-                String tempFIeld = StringUtils.upperCaseFirstLetter(field.getPropertyName());
-                bw.write("\tpublic " + field.getJavaType() + " get" + tempFIeld + "() {");
-                bw.newLine();
-                bw.write("\t\treturn this." + field.getPropertyName() + ";");
-                bw.newLine();
-                bw.write("\t}");
-                bw.newLine();
-                bw.newLine();
-
-                bw.write("\tpublic void set" + tempFIeld + "(" + field.getJavaType() + " "
-                        + field.getPropertyName() + ") {");
-                bw.newLine();
-                bw.write("\t\tthis." + field.getPropertyName() + " = " + field.getPropertyName() + ";");
-                bw.newLine();
-                bw.write("\t}");
-                bw.newLine();
-                bw.newLine();
-            }
+            BuildGetterAndSetter(tableInfo.getFieldList(), bw);
+            BuildGetterAndSetter(fieldExtends, bw);
 
             bw.newLine();
             bw.write("}");
             bw.flush();
-        } catch (Exception e) {
+        } catch (
+
+        Exception e) {
             logger.error("创建Query失败", e);
         } finally {
             try {
@@ -131,6 +116,28 @@ public class BuildQuery {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private static void BuildGetterAndSetter(List<FieldInfo> fieldList, BufferedWriter bw) throws IOException {
+        for (FieldInfo field : fieldList) {
+            String tempFIeld = StringUtils.upperCaseFirstLetter(field.getPropertyName());
+            bw.write("\tpublic " + field.getJavaType() + " get" + tempFIeld + "() {");
+            bw.newLine();
+            bw.write("\t\treturn this." + field.getPropertyName() + ";");
+            bw.newLine();
+            bw.write("\t}");
+            bw.newLine();
+            bw.newLine();
+
+            bw.write("\tpublic void set" + tempFIeld + "(" + field.getJavaType() + " "
+                    + field.getPropertyName() + ") {");
+            bw.newLine();
+            bw.write("\t\tthis." + field.getPropertyName() + " = " + field.getPropertyName() + ";");
+            bw.newLine();
+            bw.write("\t}");
+            bw.newLine();
+            bw.newLine();
         }
     }
 }
