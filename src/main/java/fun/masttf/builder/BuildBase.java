@@ -24,6 +24,8 @@ public class BuildBase {
         ArrayList<String> headerInfoList = new ArrayList<>();
         headerInfoList.add("package " + Constants.PACKAGE_ENUMS + ";");
         build(headerInfoList, "DateTimePatternEnum", Constants.PATH_ENUMS);
+        build(headerInfoList, "PageSize", Constants.PATH_ENUMS);
+
         headerInfoList.clear();
         headerInfoList.add("package " + Constants.PACKAGE_UTILS + ";");
         build(headerInfoList, "DateUtils", Constants.PATH_UTILS);
@@ -31,6 +33,12 @@ public class BuildBase {
         headerInfoList.clear();
         headerInfoList.add("package " + Constants.PACKAGE_MAPPER + ";");
         build(headerInfoList, "BaseMapper", Constants.PATH_MAPPER);
+
+        headerInfoList.clear();
+        headerInfoList.add("package " + Constants.PACKAGE_QUERY + ";");
+        build(headerInfoList, "BaseQuery", Constants.PATH_QUERY);
+        headerInfoList.add("import " + Constants.PACKAGE_ENUMS + ".PageSize;");
+        build(headerInfoList, "SimplePage", Constants.PATH_QUERY);
     }
 
     private static void build(List<String> headerInfoList, String fileName, String outPutPath) {

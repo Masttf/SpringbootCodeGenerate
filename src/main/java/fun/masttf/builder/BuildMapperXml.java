@@ -6,15 +6,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.sql.Array;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import fun.masttf.utils.StringUtils;
 
 import fun.masttf.bean.Constants;
 import fun.masttf.bean.FieldInfo;
@@ -161,7 +157,35 @@ public class BuildMapperXml {
             bw.newLine();
             bw.newLine();
 
+            bw.write("\t<!-- 查询列表 -->");
             bw.newLine();
+            bw.write("\t<select id=\"selectList\"  resultMap=\"" + BaseResultMap + "\">");
+            bw.newLine();
+            bw.write("\t\tSELECT <include refid=\"" + BaseColumnList + "\" />" + " FROM " + tableInfo.getTableName()
+                    + " <include refid=\""
+                    + QueryCondition + "\" />");
+            bw.newLine();
+            bw.write("\t\t<if test=\"query.orderBy != null and query.orderBy != ''\"> order by ${query.orderBy} </if>");
+            bw.newLine();
+            bw.write(
+                    "\t\t<if test=\"query.simplePage != null\"> limit #{query.simplePage.start}, #{query.simplePage.end} </if>");
+            bw.newLine();
+            bw.write("\t</select>");
+            bw.newLine();
+            bw.newLine();
+
+            bw.write("\t<!-- 查询数量 -->");
+            bw.newLine();
+            bw.write("\t<select id=\"selectCount\"  resultType=\"java.lang.Integer\">");
+            bw.newLine();
+            bw.write("\t\t SELECT count(1) FROM " + tableInfo.getTableName() + " <include refid=\""
+                    + QueryCondition + "\" />");
+            bw.newLine();
+
+            bw.write("\t</select>");
+            bw.newLine();
+            bw.newLine();
+
             bw.write("</mapper>");
             bw.newLine();
             bw.flush();

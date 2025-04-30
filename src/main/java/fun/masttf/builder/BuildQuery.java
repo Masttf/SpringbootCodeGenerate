@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -52,7 +51,7 @@ public class BuildQuery {
 
             bw.newLine();
             BuildComment.createClassComment(bw, tableInfo.getComment() + "查询类");
-            bw.write("public class " + className + " {");
+            bw.write("public class " + className + " extends BaseQuery {");
             bw.newLine();
             bw.newLine();
             for (FieldInfo field : tableInfo.getFieldList()) {
