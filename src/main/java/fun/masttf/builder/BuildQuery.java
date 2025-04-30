@@ -55,7 +55,6 @@ public class BuildQuery {
             bw.write("public class " + className + " {");
             bw.newLine();
             bw.newLine();
-            ArrayList<FieldInfo> fieldExtends = new ArrayList<>();
             for (FieldInfo field : tableInfo.getFieldList()) {
                 BuildComment.createFieldComment(bw, field.getComment());
                 bw.write("\tprivate " + field.getJavaType() + " " + field.getPropertyName() + ";");
@@ -63,40 +62,25 @@ public class BuildQuery {
                 bw.newLine();
 
                 if (field.getJavaType().equals("String")) {
-                    FieldInfo fieldFuzzy = new FieldInfo();
-                    fieldFuzzy.setPropertyName(field.getPropertyName() + Constants.SUFFIX_BEAN_QUERY_FUZZY);
-                    fieldFuzzy.setJavaType("String");
-                    fieldExtends.add(fieldFuzzy);
-
-                    bw.write("\tprivate String " + fieldFuzzy.getPropertyName() + ";");
+                    bw.write("\tprivate String " + field.getPropertyName() + Constants.SUFFIX_BEAN_QUERY_FUZZY + ";");
                     bw.newLine();
                     bw.newLine();
 
                 }
 
                 if (field.getJavaType().equals("Date")) {
-                    FieldInfo fieldStart = new FieldInfo();
-                    fieldStart.setPropertyName(field.getPropertyName() + Constants.SUFFIX_BEAN_QUERY_TIME_START);
-                    fieldStart.setJavaType("String");
-                    fieldExtends.add(fieldStart);
-
-                    FieldInfo fieldEnd = new FieldInfo();
-                    fieldEnd.setPropertyName(field.getPropertyName() + Constants.SUFFIX_BEAN_QUERY_TIME_END);
-                    fieldEnd.setJavaType("String");
-                    fieldExtends.add(fieldEnd);
-
-                    bw.write("\tprivate String " + fieldStart.getPropertyName()
+                    bw.write("\tprivate String " + field.getPropertyName() + Constants.SUFFIX_BEAN_QUERY_TIME_START
                             + ";");
                     bw.newLine();
                     bw.newLine();
-                    bw.write("\tprivate String " + fieldEnd.getPropertyName()
+                    bw.write("\tprivate String " + field.getPropertyName() + Constants.SUFFIX_BEAN_QUERY_TIME_END
                             + ";");
                     bw.newLine();
                     bw.newLine();
                 }
             }
             BuildGetterAndSetter(tableInfo.getFieldList(), bw);
-            BuildGetterAndSetter(fieldExtends, bw);
+            BuildGetterAndSetter(tableInfo.getFieldExtendsList(), bw);
 
             bw.newLine();
             bw.write("}");

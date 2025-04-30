@@ -69,6 +69,7 @@ public class BuildTable {
         PreparedStatement ps = null;
         ResultSet rs = null;
         List<FieldInfo> fieldInfoList = new ArrayList<>();
+        List<FieldInfo> fieldExtendsList = new ArrayList<>();
         try {
             ps = conn.prepareStatement(String.format(SQL_SHOW_TABLE_FIELDS, tableInfo.getTableName()));
             rs = ps.executeQuery();
@@ -98,8 +99,34 @@ public class BuildTable {
                 if (ArrayUtils.contains(Constants.SQL_DECIMAL_TYPE, type)) {
                     tableInfo.setHaveBigDecimal(true);
                 }
+                if (fieldInfo.getJavaType().equals("String")) {
+                    FieldInfo fieldFuzzy = new FieldInfo();
+                    fieldFuzzy.setPropertyName(fieldInfo.getPropertyName() + Constants.SUFFIX_BEAN_QUERY_FUZZY);
+                    fieldFuzzy.setJavaType("String");
+                    fieldFuzzy.setFieldName(field);
+                    fieldFuzzy.setSqlType(type);
+                    fieldExtendsList.add(fieldFuzzy);
+                }
+
+                if (fieldInfo.getJavaType().equals("Date")) {
+                    FieldInfo fieldStart = new FieldInfo();
+                    fieldStart.setPropertyName(fieldInfo.getPropertyName() + Constants.SUFFIX_BEAN_QUERY_TIME_START);
+                    fieldStart.setJavaType("String");
+                    fieldStart.setFieldName(field);
+                    fieldStart.setSqlType(type);
+                    fieldExtendsList.add(fieldStart);
+
+                    FieldInfo fieldEnd = new FieldInfo();
+                    fieldEnd.setPropertyName(fieldInfo.getPropertyName() + Constants.SUFFIX_BEAN_QUERY_TIME_END);
+                    fieldEnd.setJavaType("String");
+                    fieldEnd.setFieldName(field);
+                    fieldEnd.setSqlType(type);
+                    fieldExtendsList.add(fieldEnd);
+
+                }
             }
             tableInfo.setFieldList(fieldInfoList);
+            tableInfo.setFieldExtendsList(fieldExtendsList);
         } catch (Exception e) {
             logger.error("获取字段信息失败", e);
         } finally {

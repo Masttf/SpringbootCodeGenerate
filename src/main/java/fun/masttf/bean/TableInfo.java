@@ -31,6 +31,11 @@ public class TableInfo {
     private List<FieldInfo> fieldList;
 
     /*
+     * 拓展字段信息
+     */
+    private List<FieldInfo> fieldExtendsList;
+
+    /*
      * * 唯一索引集合
      */
     private Map<String, List<FieldInfo>> keyIndexMap = new LinkedHashMap<>();
@@ -120,6 +125,14 @@ public class TableInfo {
 
     public void setHaveBigDecimal(boolean haveBigDecimal) {
         this.haveBigDecimal = haveBigDecimal;
+    }
+
+    public List<FieldInfo> getFieldExtendsList() {
+        return fieldExtendsList;
+    }
+
+    public void setFieldExtendsList(List<FieldInfo> fieldExtendsList) {
+        this.fieldExtendsList = fieldExtendsList;
     }
 
 }

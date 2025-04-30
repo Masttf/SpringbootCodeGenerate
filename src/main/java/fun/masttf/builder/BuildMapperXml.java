@@ -6,9 +6,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.sql.Array;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +25,8 @@ public class BuildMapperXml {
     private static final String BaseResultMap = "BaseResultMap";
     private static final String BaseColumnList = "BaseColumnList";
     private static final String BaseQueryCondition = "BaseQueryCondition";
+    private static final String BaseQueryExtendCondition = "BaseQueryExtendCondition";
+    private static final String QueryCondition = "QueryCondition";
 
     public static void execute(TableInfo tableInfo) {
         File folder = new File(Constants.PATH_MAPPER_XML);
@@ -72,6 +76,7 @@ public class BuildMapperXml {
             }
             bw.write("\t</resultMap>");
             bw.newLine();
+            bw.newLine();
 
             bw.write("\t<!-- 通用查询列 -->");
             bw.newLine();
@@ -84,6 +89,7 @@ public class BuildMapperXml {
             bw.write("\t\t" + colBuilder.substring(0, colBuilder.length() - 1));
             bw.newLine();
             bw.write("\t</sql>");
+            bw.newLine();
             bw.newLine();
 
             bw.write("\t<!-- 基础查询条件 -->");
@@ -103,6 +109,56 @@ public class BuildMapperXml {
                 bw.newLine();
             }
             bw.write("\t</sql>");
+            bw.newLine();
+            bw.newLine();
+
+            bw.write("\t<!-- 拓展的查询条件 -->");
+            bw.newLine();
+            bw.write("\t<sql id=\"" + BaseQueryExtendCondition + "\">");
+            bw.newLine();
+            for (FieldInfo fieldInfo : tableInfo.getFieldExtendsList()) {
+                String tmpTest = "query." + fieldInfo.getPropertyName() + " != null AND query."
+                        + fieldInfo.getPropertyName() + " != ''";
+
+                String andWhere = "";
+                if (ArrayUtils.contains(Constants.SQL_STRING_TYPE, fieldInfo.getSqlType())) {
+                    andWhere = "AND " + fieldInfo.getFieldName() + " LIKE CONCAT('%', #{query."
+                            + fieldInfo.getPropertyName() + "}, '%')";
+                } else if (ArrayUtils.contains(Constants.SQL_DATE_TIIME_TYPES, fieldInfo.getSqlType())
+                        || ArrayUtils.contains(Constants.SQL_DATE_TYPES, fieldInfo.getSqlType())) {
+                    if (fieldInfo.getPropertyName().endsWith(Constants.SUFFIX_BEAN_QUERY_TIME_START)) {
+                        andWhere = "<![CDATA[ AND " + fieldInfo.getFieldName() + " >= str_to_date(#{query."
+                                + fieldInfo.getPropertyName() + "},'%Y-%m-%d') ]]>";
+                    } else if (fieldInfo.getPropertyName().endsWith(Constants.SUFFIX_BEAN_QUERY_TIME_END)) {
+                        andWhere = "<![CDATA[ AND " + fieldInfo.getFieldName() + " < DATE_ADD(str_to_date(#{query."
+                                + fieldInfo.getPropertyName() + "},'%Y-%m-%d'), INTERVAL 1 DAY) ]]>";
+                    }
+                }
+                bw.write("\t\t<if test=\"" + tmpTest + "\">");
+                bw.newLine();
+                bw.write("\t\t\t" + andWhere);
+                bw.newLine();
+                bw.write("\t\t</if>");
+                bw.newLine();
+            }
+            bw.write("\t</sql>");
+            bw.newLine();
+            bw.newLine();
+
+            bw.write("\t<!-- 通用查询条件 -->");
+            bw.newLine();
+            bw.write("\t<sql id=\"" + QueryCondition + "\">");
+            bw.newLine();
+            bw.write("\t\t<where>");
+            bw.newLine();
+            bw.write("\t\t\t<include refid=\"" + BaseQueryCondition + "\" />");
+            bw.newLine();
+            bw.write("\t\t\t<include refid=\"" + BaseQueryExtendCondition + "\" />");
+            bw.newLine();
+            bw.write("\t\t</where>");
+            bw.newLine();
+            bw.write("\t</sql>");
+            bw.newLine();
             bw.newLine();
 
             bw.newLine();
