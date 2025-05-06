@@ -9,6 +9,7 @@ import fun.masttf.builder.BuildMapper;
 import fun.masttf.builder.BuildMapperXml;
 import fun.masttf.builder.BuildPo;
 import fun.masttf.builder.BuildQuery;
+import fun.masttf.builder.BuildService;
 import fun.masttf.builder.BuildTable;
 
 public class easyJavaApplication {
@@ -20,6 +21,7 @@ public class easyJavaApplication {
             BuildQuery.execute(tableInfo);
             BuildMapper.execute(tableInfo);
             BuildMapperXml.execute(tableInfo);
+            BuildService.execute(tableInfo);
         }
     }
 }

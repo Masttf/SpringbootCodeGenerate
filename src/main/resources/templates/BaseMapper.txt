@@ -4,24 +4,24 @@ import org.apache.ibatis.annotations.Param;
 public interface BaseMapper<T, P> {
 
     /*
-     * * insert插入数据
+     * insert插入数据
      */
-    Integer insert(@Param("bean") T t);
+    Long insert(@Param("bean") T t);
 
     /*
-     * * insert update 插入或者更新数据
+     * insert update 插入或者更新数据
      */
-    Integer insertOrUpdate(@Param("bean") T t);
+    Long insertOrUpdate(@Param("bean") T t);
 
     /*
-     * *insertBatch 批量插入数据
+     * insertBatch 批量插入数据
      */
-    Integer insertBatch(@Param("list") List<T> list);
+    Long insertBatch(@Param("list") List<T> list);
 
     /*
-     * *insertOrUpdateBatch 批量插入或者更新数据
+     * insertOrUpdateBatch 批量插入或者更新数据
      */
-    Integer insertOrUpdateBatch(@Param("list") List<T> list);
+    Long insertOrUpdateBatch(@Param("list") List<T> list);
 
     /*
      * selectList 根据参数查询数据列表

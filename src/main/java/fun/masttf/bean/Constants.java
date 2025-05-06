@@ -15,18 +15,24 @@ public class Constants {
     public static String PATH_RESOURCES = "resources";
     public static String PATH_BASE;
     public static String PATH_PO;
+    public static String PATH_VO;
     public static String PATH_UTILS;
     public static String PATH_ENUMS;
     public static String PATH_QUERY;
     public static String PATH_MAPPER;
     public static String PATH_MAPPER_XML;
+    public static String PATH_SERVICE;
+    public static String PATH_SERVICE_IMPL;
 
     public static String PACKAGE_BASE;
     public static String PACKAGE_PO;
+    public static String PACKAGE_VO;
     public static String PACKAGE_UTILS;
     public static String PACKAGE_ENUMS;
     public static String PACKAGE_QUERY;
     public static String PACKAGE_MAPPER;
+    public static String PACKAGE_SERVICE;
+    public static String PACKAGE_SERVICE_IMPL;
 
     // 需要忽略的属性
     public static String IGNORE_BEAN_TOJSON_FILED;
@@ -61,14 +67,18 @@ public class Constants {
 
         PACKAGE_BASE = PropertiesUtils.getProperty("package.base");
         PACKAGE_PO = PACKAGE_BASE + '.' + PropertiesUtils.getProperty("package.po");
+        PACKAGE_VO = PACKAGE_BASE + '.' + PropertiesUtils.getProperty("package.vo");
         PACKAGE_UTILS = PACKAGE_BASE + '.' + PropertiesUtils.getProperty("package.utils");
         PACKAGE_ENUMS = PACKAGE_BASE + '.' + PropertiesUtils.getProperty("package.enums");
         PACKAGE_QUERY = PACKAGE_BASE + '.' + PropertiesUtils.getProperty("package.query");
         PACKAGE_MAPPER = PACKAGE_BASE + '.' + PropertiesUtils.getProperty("package.mapper");
+        PACKAGE_SERVICE = PACKAGE_BASE + '.' + PropertiesUtils.getProperty("package.service");
+        PACKAGE_SERVICE_IMPL = PACKAGE_BASE + '.' + PropertiesUtils.getProperty("package.service.impl");
 
         PATH_BASE = PropertiesUtils.getProperty("path.base");
         PATH_BASE = PATH_BASE + PATH_JAVA;
         PATH_PO = PATH_BASE + "/" + PACKAGE_PO.replace('.', '/');
+        PATH_VO = PATH_BASE + "/" + PACKAGE_VO.replace('.', '/');
         PATH_UTILS = PATH_BASE + "/" + PACKAGE_UTILS.replace('.', '/');
         PATH_ENUMS = PATH_BASE + "/" + PACKAGE_ENUMS.replace('.', '/');
         PATH_QUERY = PATH_BASE + "/" + PACKAGE_QUERY.replace('.', '/');
@@ -76,6 +86,8 @@ public class Constants {
 
         PATH_MAPPER_XML = PropertiesUtils.getProperty("path.base") + PATH_RESOURCES + "/"
                 + PACKAGE_MAPPER.replace('.', '/');
+        PATH_SERVICE = PATH_BASE + "/" + PACKAGE_SERVICE.replace('.', '/');
+        PATH_SERVICE_IMPL = PATH_BASE + "/" + PACKAGE_SERVICE_IMPL.replace('.', '/');
     }
 
     public static final String[] SQL_DATE_TIIME_TYPES = new String[] { "datetime", "timestamp" };

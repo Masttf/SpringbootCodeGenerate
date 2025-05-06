@@ -39,6 +39,10 @@ public class BuildBase {
         build(headerInfoList, "BaseQuery", Constants.PATH_QUERY);
         headerInfoList.add("import " + Constants.PACKAGE_ENUMS + ".PageSize;");
         build(headerInfoList, "SimplePage", Constants.PATH_QUERY);
+
+        headerInfoList.clear();
+        headerInfoList.add("package " + Constants.PACKAGE_VO + ";");
+        build(headerInfoList, "PaginationResultVo", Constants.PATH_VO);
     }
 
     private static void build(List<String> headerInfoList, String fileName, String outPutPath) {

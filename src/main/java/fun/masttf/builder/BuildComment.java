@@ -32,7 +32,12 @@ public class BuildComment {
         bw.newLine();
     }
 
-    public static void createMethodComment() {
-
+    public static void createMethodComment(BufferedWriter bw, String methodComment) throws Exception {
+        bw.write("\t/**");
+        bw.newLine();
+        bw.write("\t * " + (methodComment == null ? "" : methodComment));
+        bw.newLine();
+        bw.write("\t */");
+        bw.newLine();
     }
 }
