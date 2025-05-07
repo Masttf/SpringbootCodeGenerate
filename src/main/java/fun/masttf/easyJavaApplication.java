@@ -1,10 +1,10 @@
-
 package fun.masttf;
 
 import java.util.List;
 
 import fun.masttf.bean.TableInfo;
 import fun.masttf.builder.BuildBase;
+import fun.masttf.builder.BuildController;
 import fun.masttf.builder.BuildMapper;
 import fun.masttf.builder.BuildMapperXml;
 import fun.masttf.builder.BuildPo;
@@ -24,6 +24,7 @@ public class easyJavaApplication {
             BuildMapperXml.execute(tableInfo);
             BuildService.execute(tableInfo);
             BuildServiceImpl.execute(tableInfo);
+            BuildController.execute(tableInfo);
         }
     }
 }

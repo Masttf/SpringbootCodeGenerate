@@ -22,27 +22,50 @@ public class BuildBase {
 
     public static void execute() {
         ArrayList<String> headerInfoList = new ArrayList<>();
+        // 枚举
         headerInfoList.add("package " + Constants.PACKAGE_ENUMS + ";");
         build(headerInfoList, "DateTimePatternEnum", Constants.PATH_ENUMS);
         build(headerInfoList, "PageSize", Constants.PATH_ENUMS);
+        build(headerInfoList, "ResponseCodeEnum", Constants.PATH_ENUMS);
 
+        // 时间工具类
         headerInfoList.clear();
         headerInfoList.add("package " + Constants.PACKAGE_UTILS + ";");
         build(headerInfoList, "DateUtils", Constants.PATH_UTILS);
 
+        // 基础Mapper类
         headerInfoList.clear();
         headerInfoList.add("package " + Constants.PACKAGE_MAPPER + ";");
         build(headerInfoList, "BaseMapper", Constants.PATH_MAPPER);
 
+        // 基础Query类
         headerInfoList.clear();
         headerInfoList.add("package " + Constants.PACKAGE_QUERY + ";");
         build(headerInfoList, "BaseQuery", Constants.PATH_QUERY);
         headerInfoList.add("import " + Constants.PACKAGE_ENUMS + ".PageSize;");
         build(headerInfoList, "SimplePage", Constants.PATH_QUERY);
 
+        // VO
         headerInfoList.clear();
         headerInfoList.add("package " + Constants.PACKAGE_VO + ";");
         build(headerInfoList, "PaginationResultVo", Constants.PATH_VO);
+        build(headerInfoList, "ResponseVo", Constants.PATH_VO);
+
+        // Exception类
+        headerInfoList.clear();
+        headerInfoList.add("package " + Constants.PACKAGE_EXCEPTION + ";");
+        headerInfoList.add("import " + Constants.PACKAGE_ENUMS + ".ResponseCodeEnum;");
+        build(headerInfoList, "BusinessException", Constants.PATH_EXCEPTION);
+
+        // 基础Controller类
+        headerInfoList.clear();
+        headerInfoList.add("package " + Constants.PACKAGE_CONTROLLER + ";");
+        headerInfoList.add("import " + Constants.PACKAGE_VO + ".ResponseVo;");
+        headerInfoList.add("import " + Constants.PACKAGE_ENUMS + ".ResponseCodeEnum;");
+        build(headerInfoList, "ABaseController", Constants.PATH_CONTROLLER);
+        headerInfoList.add("import " + Constants.PACKAGE_EXCEPTION + ".BusinessException;");
+        build(headerInfoList, "AGlobalExceptionHandlerController", Constants.PATH_CONTROLLER);
+
     }
 
     private static void build(List<String> headerInfoList, String fileName, String outPutPath) {

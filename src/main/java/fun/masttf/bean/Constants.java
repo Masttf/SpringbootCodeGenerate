@@ -23,6 +23,8 @@ public class Constants {
     public static String PATH_MAPPER_XML;
     public static String PATH_SERVICE;
     public static String PATH_SERVICE_IMPL;
+    public static String PATH_CONTROLLER;
+    public static String PATH_EXCEPTION;
 
     public static String PACKAGE_BASE;
     public static String PACKAGE_PO;
@@ -33,6 +35,8 @@ public class Constants {
     public static String PACKAGE_MAPPER;
     public static String PACKAGE_SERVICE;
     public static String PACKAGE_SERVICE_IMPL;
+    public static String PACKAGE_CONTROLLER;
+    public static String PACKAGE_EXCEPTION;
 
     // 需要忽略的属性
     public static String IGNORE_BEAN_TOJSON_FILED;
@@ -74,6 +78,8 @@ public class Constants {
         PACKAGE_MAPPER = PACKAGE_BASE + '.' + PropertiesUtils.getProperty("package.mapper");
         PACKAGE_SERVICE = PACKAGE_BASE + '.' + PropertiesUtils.getProperty("package.service");
         PACKAGE_SERVICE_IMPL = PACKAGE_BASE + '.' + PropertiesUtils.getProperty("package.service.impl");
+        PACKAGE_CONTROLLER = PACKAGE_BASE + '.' + PropertiesUtils.getProperty("package.controller");
+        PACKAGE_EXCEPTION = PACKAGE_BASE + '.' + PropertiesUtils.getProperty("package.exception");
 
         PATH_BASE = PropertiesUtils.getProperty("path.base");
         PATH_BASE = PATH_BASE + PATH_JAVA;
@@ -88,6 +94,8 @@ public class Constants {
                 + PACKAGE_MAPPER.replace('.', '/');
         PATH_SERVICE = PATH_BASE + "/" + PACKAGE_SERVICE.replace('.', '/');
         PATH_SERVICE_IMPL = PATH_BASE + "/" + PACKAGE_SERVICE_IMPL.replace('.', '/');
+        PATH_CONTROLLER = PATH_BASE + "/" + PACKAGE_CONTROLLER.replace('.', '/');
+        PATH_EXCEPTION = PATH_BASE + "/" + PACKAGE_EXCEPTION.replace('.', '/');
     }
 
     public static final String[] SQL_DATE_TIIME_TYPES = new String[] { "datetime", "timestamp" };
