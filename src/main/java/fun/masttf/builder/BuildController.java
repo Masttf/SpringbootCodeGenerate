@@ -231,7 +231,7 @@ public class BuildController {
             bw.write("}");
             bw.flush();
         } catch (Exception e) {
-            logger.error("创建ServiceImpl失败", e);
+            logger.error("创建Controller失败", e);
         } finally {
             try {
                 if (bw != null)
