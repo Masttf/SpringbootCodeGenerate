@@ -62,14 +62,20 @@ public class BuildMapperXml {
                 idField = primaryFields.get(0);
             }
 
+            if (idField != null) {
+                bw.write("\t\t<!--" + idField.getComment() + " -->");
+                bw.newLine();
+                bw.write("\t\t<id column=\"" + idField.getFieldName() + "\" property=\"" + idField.getPropertyName()
+                        + "\" />");
+                bw.newLine();
+            }
             for (FieldInfo fieldInfo : tableInfo.getFieldList()) {
+                if (idField != null && fieldInfo.getPropertyName().equals(idField.getPropertyName())) {
+                    continue;
+                }
                 bw.write("\t\t<!--" + fieldInfo.getComment() + " -->");
                 bw.newLine();
-                String Key = "result";
-                if (idField != null && fieldInfo.getPropertyName().equals(idField.getPropertyName())) {
-                    Key = "id";
-                }
-                bw.write("\t\t<" + Key + " column=\"" + fieldInfo.getFieldName() + "\" property=\""
+                bw.write("\t\t<result column=\"" + fieldInfo.getFieldName() + "\" property=\""
                         + fieldInfo.getPropertyName() + "\" />");
                 bw.newLine();
             }
@@ -77,7 +83,7 @@ public class BuildMapperXml {
             bw.newLine();
             bw.newLine();
 
-            bw.write("\t<!-- 通用查询列 -->");
+            bw.write("\t<!-- 基础查询列 -->");
             bw.newLine();
             bw.write("\t<sql id=\"" + BaseColumnList + "\">");
             bw.newLine();
@@ -303,10 +309,14 @@ public class BuildMapperXml {
             StringBuffer fieldBuffer = new StringBuffer();
             StringBuffer propertyBuffer = new StringBuffer();
             StringBuffer fieldBuffer2 = new StringBuffer();
+            StringBuffer fieldBufferAll = new StringBuffer();
+            StringBuffer propertyBufferAll = new StringBuffer();
             for (FieldInfo fieldInfo : tableInfo.getFieldList()) {
+                fieldBufferAll.append(fieldInfo.getFieldName()).append(",");
+                fieldBuffer2.append(fieldInfo.getFieldName() + " = VALUES(" + fieldInfo.getFieldName() + "),");
+                propertyBufferAll.append("#{item.").append(fieldInfo.getPropertyName()).append("},");
                 if (fieldInfo.isAutoIncrement())
                     continue;
-                fieldBuffer2.append(fieldInfo.getFieldName() + " = VALUES(" + fieldInfo.getFieldName() + "),");
                 fieldBuffer.append(fieldInfo.getFieldName()).append(",");
                 propertyBuffer.append("#{item.").append(fieldInfo.getPropertyName()).append("},");
             }
@@ -334,16 +344,16 @@ public class BuildMapperXml {
             bw.write("\t<insert id=\"insertOrUpdateBatch\">");
             bw.newLine();
             bw.write("\t\tINSERT INTO " + tableInfo.getTableName() + "("
-                    + fieldBuffer.substring(0, fieldBuffer.length() - 1)
+                    + fieldBufferAll.substring(0, fieldBufferAll.length() - 1)
                     + ") VALUES");
             bw.newLine();
             bw.write("\t\t<foreach collection=\"list\" item=\"item\" separator=\",\">");
             bw.newLine();
-            bw.write("\t\t\t(" + propertyBuffer.substring(0, propertyBuffer.length() - 1) + ")");
+            bw.write("\t\t\t(" + propertyBufferAll.substring(0, propertyBufferAll.length() - 1) + ")");
             bw.newLine();
             bw.write("\t\t</foreach>");
             bw.newLine();
-            bw.write("\t\t\"ON DUPLICATE KEY UPDATE\"");
+            bw.write("\t\tON DUPLICATE KEY UPDATE");
             bw.newLine();
             bw.write("\t\t" + fieldBuffer2.substring(0, fieldBuffer2.length() - 1));
             bw.newLine();
@@ -351,7 +361,7 @@ public class BuildMapperXml {
             bw.newLine();
             bw.newLine();
 
-            // 根据主键更新
+            // 根据唯一索引更新
             Map<String, List<FieldInfo>> keyIndexMap = tableInfo.getKeyIndexMap();
             for (Map.Entry<String, List<FieldInfo>> entry : keyIndexMap.entrySet()) {
                 List<FieldInfo> fieldInfos = entry.getValue();

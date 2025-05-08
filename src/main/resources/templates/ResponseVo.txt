@@ -1,7 +1,7 @@
 public class ResponseVo<T> {
     private String status;
     private Integer code;
-    private String info;
+    private String msg;
     private T data;
 
     public String getStatus() {
@@ -20,12 +20,12 @@ public class ResponseVo<T> {
         this.code = code;
     }
 
-    public String getInfo() {
-        return info;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setInfo(String info) {
-        this.info = info;
+    public void setMsg(String info) {
+        this.msg = info;
     }
 
     public T getData() {
@@ -36,4 +36,3 @@ public class ResponseVo<T> {
         this.data = data;
     }
 }
-

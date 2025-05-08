@@ -53,7 +53,7 @@ public class BuildServiceImpl {
             bw.newLine();
             bw.write("import " + Constants.PACKAGE_PO + "." + tableInfo.getBeanName() + ";");
             bw.newLine();
-            bw.write("import " + Constants.PACKAGE_QUERY + "." + tableInfo.getBeanParamName() + ";");
+            bw.write("import " + Constants.PACKAGE_QUERY + "." + tableInfo.getBeanQueryName() + ";");
             bw.newLine();
             bw.write("import " + Constants.PACKAGE_SERVICE + "." + interfaceName + ";");
             bw.newLine();
@@ -75,13 +75,13 @@ public class BuildServiceImpl {
             bw.write("\t@Autowired");
             bw.newLine();
             bw.write("\tprivate " + mapperName + "<" + tableInfo.getBeanName()
-                    + ", " + tableInfo.getBeanParamName() + "> " + mapperBeanName + ";");
+                    + ", " + tableInfo.getBeanQueryName() + "> " + mapperBeanName + ";");
             bw.newLine();
             bw.newLine();
             BuildComment.createMethodComment(bw, "根据条件查询列表");
             bw.write("\t@Override");
             bw.newLine();
-            bw.write("\tpublic List<" + tableInfo.getBeanName() + "> findListByParam(" + tableInfo.getBeanParamName()
+            bw.write("\tpublic List<" + tableInfo.getBeanName() + "> findListByQuery(" + tableInfo.getBeanQueryName()
                     + " query) {");
             bw.newLine();
             bw.write("\t\treturn " + mapperBeanName + ".selectList(query);");
@@ -93,7 +93,7 @@ public class BuildServiceImpl {
             BuildComment.createMethodComment(bw, "根据条件查询数量");
             bw.write("\t@Override");
             bw.newLine();
-            bw.write("\tpublic Integer findCountByParam(" + tableInfo.getBeanParamName() + " query) {");
+            bw.write("\tpublic Integer findCountByQuery(" + tableInfo.getBeanQueryName() + " query) {");
             bw.newLine();
             bw.write("\t\treturn " + mapperBeanName + ".selectCount(query);");
             bw.newLine();
@@ -105,7 +105,7 @@ public class BuildServiceImpl {
             bw.write("\t@Override");
             bw.newLine();
             bw.write("\tpublic PaginationResultVo<" + tableInfo.getBeanName() + ">" + " findListByPage("
-                    + tableInfo.getBeanParamName() + " query) {");
+                    + tableInfo.getBeanQueryName() + " query) {");
             bw.newLine();
             bw.write("\t\tInteger count = " + mapperBeanName + ".selectCount(query);");
             bw.newLine();

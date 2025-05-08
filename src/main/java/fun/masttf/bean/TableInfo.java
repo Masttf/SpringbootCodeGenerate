@@ -17,9 +17,10 @@ public class TableInfo {
     private String beanName;
 
     /*
-     * * 参数名称
+     * * 查询参数名称
      */
-    private String beanParamName;
+    private String beanQueryName;
+
     /*
      * * 表注释
      */
@@ -31,7 +32,7 @@ public class TableInfo {
     private List<FieldInfo> fieldList;
 
     /*
-     * 拓展字段信息
+     * 拓展字段信息 模糊查找，根据时间查找
      */
     private List<FieldInfo> fieldExtendsList;
 
@@ -71,12 +72,12 @@ public class TableInfo {
         this.beanName = beanName;
     }
 
-    public String getBeanParamName() {
-        return beanParamName;
+    public String getBeanQueryName() {
+        return beanQueryName;
     }
 
-    public void setBeanParamName(String beanParamName) {
-        this.beanParamName = beanParamName;
+    public void setBeanQueryName(String beanParamName) {
+        this.beanQueryName = beanParamName;
     }
 
     public String getComment() {

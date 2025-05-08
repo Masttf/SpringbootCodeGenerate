@@ -48,6 +48,14 @@ public class BuildController {
             bw.newLine();
             bw.write("import org.springframework.web.bind.annotation.RequestMapping;");
             bw.newLine();
+            bw.write("import org.springframework.web.bind.annotation.GetMapping;");
+            bw.newLine();
+            bw.write("import org.springframework.web.bind.annotation.PostMapping;");
+            bw.newLine();
+            bw.write("import org.springframework.web.bind.annotation.RequestParam;");
+            bw.newLine();
+            bw.write("import org.springframework.web.bind.annotation.DeleteMapping;");
+            bw.newLine();
             bw.write("import org.springframework.web.bind.annotation.RestController;");
             bw.newLine();
             bw.write("import org.springframework.beans.factory.annotation.Qualifier;");
@@ -60,14 +68,16 @@ public class BuildController {
                     ";");
             bw.newLine();
             bw.write("import " + Constants.PACKAGE_QUERY + "." +
-                    tableInfo.getBeanParamName() + ";");
+                    tableInfo.getBeanQueryName() + ";");
             bw.newLine();
             bw.write("import " + Constants.PACKAGE_SERVICE + "." + serviceName + ";");
             bw.newLine();
             bw.newLine();
 
             BuildComment.createClassComment(bw, tableInfo.getComment() + "Controller");
-            bw.write("@RestController(\"/api/" + StringUtils.lowerCaseFirstLetter(serviceBeanName) + "\")");
+            bw.write("@RestController");
+            bw.newLine();
+            bw.write("@RequestMapping(\"/api/" + StringUtils.lowerCaseFirstLetter(serviceBeanName) + "\")");
             bw.newLine();
             bw.write("public class " + className + " extends ABaseController {");
             bw.newLine();
@@ -80,10 +90,34 @@ public class BuildController {
             bw.write("\tprivate " + serviceName + " " + serviceBeanName + ";");
             bw.newLine();
             bw.newLine();
-            BuildComment.createMethodComment(bw, "根据条件分页查询");
-            bw.write("\t@RequestMapping(\"loadDataList\")");
+
+            BuildComment.createMethodComment(bw, "根据条件查询列表");
+            bw.write("\t@GetMapping(\"findListByQuery\")");
             bw.newLine();
-            bw.write("\tpublic ResponseVo<Object> loadDataList(" + tableInfo.getBeanParamName() + " query) {");
+            bw.write("\tpublic ResponseVo<Object> findListByQuery(" + tableInfo.getBeanQueryName()
+                    + " query) {");
+            bw.newLine();
+            bw.write("\t\treturn getSuccessResponseVo(" + serviceBeanName + ".findListByQuery(query));");
+            bw.newLine();
+            bw.write("\t}");
+            bw.newLine();
+            bw.newLine();
+
+            BuildComment.createMethodComment(bw, "根据条件查询数量");
+            bw.write("\t@GetMapping(\"findCountByQuery\")");
+            bw.newLine();
+            bw.write("\tpublic ResponseVo<Object> findCountByQuery(" + tableInfo.getBeanQueryName() + " query) {");
+            bw.newLine();
+            bw.write("\t\treturn getSuccessResponseVo(" + serviceBeanName + ".findCountByQuery(query));");
+            bw.newLine();
+            bw.write("\t}");
+            bw.newLine();
+            bw.newLine();
+
+            BuildComment.createMethodComment(bw, "根据条件分页查询");
+            bw.write("\t@GetMapping(\"loadDataList\")");
+            bw.newLine();
+            bw.write("\tpublic ResponseVo<Object> loadDataList(" + tableInfo.getBeanQueryName() + " query) {");
             bw.newLine();
             bw.write("\t\treturn getSuccessResponseVo(" + serviceBeanName + ".findListByPage(query));");
             bw.newLine();
@@ -92,9 +126,9 @@ public class BuildController {
             bw.newLine();
 
             BuildComment.createMethodComment(bw, "新增");
-            bw.write("\t@RequestMapping(\"add\")");
+            bw.write("\t@PostMapping(\"add\")");
             bw.newLine();
-            bw.write("\tpublic ResponseVo<Object> add(" + tableInfo.getBeanName() + " bean) {");
+            bw.write("\tpublic ResponseVo<Object> add(@RequestBody " + tableInfo.getBeanName() + " bean) {");
             bw.newLine();
             bw.write("\t\t" + serviceBeanName + ".add(bean);");
             bw.newLine();
@@ -105,7 +139,7 @@ public class BuildController {
             bw.newLine();
 
             BuildComment.createMethodComment(bw, "批量新增");
-            bw.write("\t@RequestMapping(\"addBatch\")");
+            bw.write("\t@PostMapping(\"addBatch\")");
             bw.newLine();
             bw.write("\tpublic ResponseVo<Object> addBatch(@RequestBody List<" + tableInfo.getBeanName()
                     + "> listBean) {");
@@ -119,7 +153,7 @@ public class BuildController {
             bw.newLine();
 
             BuildComment.createMethodComment(bw, "批量新增/修改");
-            bw.write("\t@RequestMapping(\"addOrUpdateBatch\")");
+            bw.write("\t@PostMapping(\"addOrUpdateBatch\")");
             bw.newLine();
             bw.write(
                     "\tpublic ResponseVo<Object> addOrUpdateBatch(@RequestBody List<" + tableInfo.getBeanName()
@@ -146,12 +180,13 @@ public class BuildController {
                         params.append(", ");
                     }
                     methodName.append(StringUtils.upperCaseFirstLetter(fieldInfo.getPropertyName()));
-                    methodParams.append(fieldInfo.getJavaType() + " " + fieldInfo.getPropertyName());
+                    methodParams.append("@RequestParam(\"" + fieldInfo.getPropertyName() + "\") "
+                            + fieldInfo.getJavaType() + " " + fieldInfo.getPropertyName());
                     params.append(fieldInfo.getPropertyName());
                     index++;
                 }
                 BuildComment.createMethodComment(bw, "根据" + methodName + "查询");
-                bw.write("\t@RequestMapping(\"getBy" + methodName + "\")");
+                bw.write("\t@GetMapping(\"getBy" + methodName + "\")");
                 bw.newLine();
                 bw.write("\tpublic ResponseVo<Object> getBy" + methodName + "(" + methodParams + ") {");
                 bw.newLine();
@@ -163,10 +198,11 @@ public class BuildController {
                 bw.newLine();
 
                 BuildComment.createMethodComment(bw, "根据" + methodName + "更新");
-                bw.write("\t@RequestMapping(\"updateBy" + methodName + "\")");
+                bw.write("\t@PostMapping(\"updateBy" + methodName + "\")");
                 bw.newLine();
                 bw.write(
-                        "\tpublic ResponseVo<Object> updateBy" + methodName + "(" + tableInfo.getBeanName() + " bean, "
+                        "\tpublic ResponseVo<Object> updateBy" + methodName + "(@RequestBody " + tableInfo.getBeanName()
+                                + " bean, "
                                 + methodParams
                                 + ") {");
                 bw.newLine();
@@ -179,7 +215,7 @@ public class BuildController {
                 bw.newLine();
 
                 BuildComment.createMethodComment(bw, "根据" + methodName + "删除");
-                bw.write("\t@RequestMapping(\"deleteBy" + methodName + "\")");
+                bw.write("\t@DeleteMapping(\"deleteBy" + methodName + "\")");
                 bw.newLine();
                 bw.write("\tpublic ResponseVo<Object> deleteBy" + methodName + "(" + methodParams + ") {");
                 bw.newLine();

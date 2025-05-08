@@ -27,7 +27,6 @@ public class BuildTable {
     private static String SQL_SHOW_TABLE_INDEX = "show index from %s";
     static {
         try {
-            // logger.info(PropertiesUtils.getProperty("db.driver.name"));
             Class.forName(PropertiesUtils.getProperty("db.driver.name"));
             conn = DriverManager.getConnection(
                     PropertiesUtils.getProperty("db.url"),
@@ -54,7 +53,7 @@ public class BuildTable {
                 tableInfo.setTableName(tableName);
                 tableInfo.setComment(tableComment);
                 tableInfo.setBeanName(beanName);
-                tableInfo.setBeanParamName(beanName + Constants.SUFFIX_BEAN_QUERY);
+                tableInfo.setBeanQueryName(beanName + Constants.SUFFIX_BEAN_QUERY);
                 readFieldInfo(tableInfo);
                 getKeyIndexInfo(tableInfo);
                 tableInfoList.add(tableInfo);
@@ -66,13 +65,11 @@ public class BuildTable {
     }
 
     private static void readFieldInfo(TableInfo tableInfo) {
-        PreparedStatement ps = null;
-        ResultSet rs = null;
         List<FieldInfo> fieldInfoList = new ArrayList<>();
         List<FieldInfo> fieldExtendsList = new ArrayList<>();
-        try {
-            ps = conn.prepareStatement(String.format(SQL_SHOW_TABLE_FIELDS, tableInfo.getTableName()));
-            rs = ps.executeQuery();
+        try (PreparedStatement ps = conn
+                .prepareStatement(String.format(SQL_SHOW_TABLE_FIELDS, tableInfo.getTableName()));
+                ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 String field = rs.getString("Field");
                 String type = rs.getString("Type");
@@ -129,34 +126,23 @@ public class BuildTable {
             tableInfo.setFieldExtendsList(fieldExtendsList);
         } catch (Exception e) {
             logger.error("获取字段信息失败", e);
-        } finally {
-            try {
-                if (rs != null)
-                    rs.close();
-                if (ps != null)
-                    ps.close();
-            } catch (Exception e) {
-                logger.error("关闭资源失败", e);
-            }
         }
         return;
     }
 
     private static void getKeyIndexInfo(TableInfo tableInfo) {
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
+        try (PreparedStatement ps = conn
+                .prepareStatement(String.format(SQL_SHOW_TABLE_INDEX, tableInfo.getTableName()));
+                ResultSet rs = ps.executeQuery()) {
             Map<String, FieldInfo> fieldInfoList = new HashMap<>();
             for (FieldInfo fieldInfo : tableInfo.getFieldList()) {
                 fieldInfoList.put(fieldInfo.getFieldName(), fieldInfo);
             }
-
-            ps = conn.prepareStatement(String.format(SQL_SHOW_TABLE_INDEX, tableInfo.getTableName()));
-            rs = ps.executeQuery();
             while (rs.next()) {
                 String keyName = rs.getString("Key_name");
                 Integer nonUnique = rs.getInt("Non_unique");
                 String columnName = rs.getString("Column_name");
+                // 不是唯一索引跳过
                 if (nonUnique == 1) {
                     continue;
                 }
@@ -170,15 +156,6 @@ public class BuildTable {
 
         } catch (Exception e) {
             logger.error("获取索引信息失败", e);
-        } finally {
-            try {
-                if (rs != null)
-                    rs.close();
-                if (ps != null)
-                    ps.close();
-            } catch (Exception e) {
-                logger.error("关闭资源失败", e);
-            }
         }
         return;
     }

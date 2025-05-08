@@ -7,7 +7,7 @@ public class ABaseController {
         ResponseVo<T> responseVo = new ResponseVo<T>();
         responseVo.setStatus(STATUC_SUCCESS);
         responseVo.setCode(ResponseCodeEnum.CODE_200.getCode());
-        responseVo.setInfo(ResponseCodeEnum.CODE_200.getMessage());
+        responseVo.setMsg(ResponseCodeEnum.CODE_200.getMessage());
         responseVo.setData(t);
         return responseVo;
     }

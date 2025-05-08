@@ -46,7 +46,7 @@ public class BuildService {
             bw.newLine();
             bw.write("import " + Constants.PACKAGE_PO + "." + tableInfo.getBeanName() + ";");
             bw.newLine();
-            bw.write("import " + Constants.PACKAGE_QUERY + "." + tableInfo.getBeanParamName() + ";");
+            bw.write("import " + Constants.PACKAGE_QUERY + "." + tableInfo.getBeanQueryName() + ";");
             bw.newLine();
             bw.newLine();
 
@@ -55,19 +55,19 @@ public class BuildService {
             bw.newLine();
             bw.newLine();
             BuildComment.createMethodComment(bw, "根据条件查询列表");
-            bw.write("\tList<" + tableInfo.getBeanName() + "> findListByParam(" + tableInfo.getBeanParamName()
+            bw.write("\tList<" + tableInfo.getBeanName() + "> findListByQuery(" + tableInfo.getBeanQueryName()
                     + " query);");
             bw.newLine();
             bw.newLine();
 
             BuildComment.createMethodComment(bw, "根据条件查询数量");
-            bw.write("\tInteger findCountByParam(" + tableInfo.getBeanParamName() + " query);");
+            bw.write("\tInteger findCountByQuery(" + tableInfo.getBeanQueryName() + " query);");
             bw.newLine();
             bw.newLine();
 
             BuildComment.createMethodComment(bw, "分页查询");
             bw.write("\tPaginationResultVo<" + tableInfo.getBeanName() + ">" + " findListByPage("
-                    + tableInfo.getBeanParamName() + " query);");
+                    + tableInfo.getBeanQueryName() + " query);");
             bw.newLine();
             bw.newLine();
 
