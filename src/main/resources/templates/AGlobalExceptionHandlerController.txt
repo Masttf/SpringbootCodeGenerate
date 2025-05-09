@@ -5,7 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@RestControllerAdvice
 public class AGlobalExceptionHandlerController extends ABaseController {
     private static final Logger logger = LoggerFactory.getLogger(AGlobalExceptionHandlerController.class);
 
