@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
@@ -105,25 +106,7 @@ public class BuildPo {
                 bw.newLine();
                 bw.newLine();
             }
-            for (FieldInfo field : tableInfo.getFieldList()) {
-                String tempFIeld = StringUtils.upperCaseFirstLetter(field.getPropertyName());
-                bw.write("\tpublic " + field.getJavaType() + " get" + tempFIeld + "() {");
-                bw.newLine();
-                bw.write("\t\treturn this." + field.getPropertyName() + ";");
-                bw.newLine();
-                bw.write("\t}");
-                bw.newLine();
-                bw.newLine();
-
-                bw.write("\tpublic void set" + tempFIeld + "(" + field.getJavaType() + " "
-                        + field.getPropertyName() + ") {");
-                bw.newLine();
-                bw.write("\t\tthis." + field.getPropertyName() + " = " + field.getPropertyName() + ";");
-                bw.newLine();
-                bw.write("\t}");
-                bw.newLine();
-                bw.newLine();
-            }
+            BuildGetterAndSetter(tableInfo.getFieldList(), bw);
             bw.write("\t@Override");
             bw.newLine();
             bw.write("\tpublic String toString() {");
@@ -163,6 +146,33 @@ public class BuildPo {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+    private static void BuildGetterAndSetter(List<FieldInfo> fieldList, BufferedWriter bw) throws IOException {
+        for (FieldInfo field : fieldList) {
+            String propertyName = field.getPropertyName();
+            String tempFIeld;
+            if (propertyName.length() > 1 && Character.isLowerCase(propertyName.charAt(0)) && Character.isUpperCase(propertyName.charAt(1))) {
+                tempFIeld = propertyName;
+            } else {
+                tempFIeld = StringUtils.upperCaseFirstLetter(propertyName);
+            }
+            bw.write("\tpublic " + field.getJavaType() + " get" + tempFIeld + "() {");
+            bw.newLine();
+            bw.write("\t\treturn this." + field.getPropertyName() + ";");
+            bw.newLine();
+            bw.write("\t}");
+            bw.newLine();
+            bw.newLine();
+
+            bw.write("\tpublic void set" + tempFIeld + "(" + field.getJavaType() + " "
+                    + field.getPropertyName() + ") {");
+            bw.newLine();
+            bw.write("\t\tthis." + field.getPropertyName() + " = " + field.getPropertyName() + ";");
+            bw.newLine();
+            bw.write("\t}");
+            bw.newLine();
+            bw.newLine();
         }
     }
 }

@@ -104,7 +104,14 @@ public class BuildQuery {
 
     private static void BuildGetterAndSetter(List<FieldInfo> fieldList, BufferedWriter bw) throws IOException {
         for (FieldInfo field : fieldList) {
-            String tempFIeld = StringUtils.upperCaseFirstLetter(field.getPropertyName());
+            String propertyName = field.getPropertyName();
+            String tempFIeld;
+            if (propertyName.length() > 1 && Character.isLowerCase(propertyName.charAt(0)) && Character.isUpperCase(propertyName.charAt(1))) {
+                // logger.info(propertyName);
+                tempFIeld = propertyName;
+            } else {
+                tempFIeld = StringUtils.upperCaseFirstLetter(propertyName);
+            }
             bw.write("\tpublic " + field.getJavaType() + " get" + tempFIeld + "() {");
             bw.newLine();
             bw.write("\t\treturn this." + field.getPropertyName() + ";");
