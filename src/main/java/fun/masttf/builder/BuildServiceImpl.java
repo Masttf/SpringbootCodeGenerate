@@ -116,7 +116,7 @@ public class BuildServiceImpl {
             bw.newLine();
             bw.write("\t\tquery.setSimplePage(page);");
             bw.newLine();
-            bw.write("\t\tList<" + tableInfo.getBeanName() + "> list = " + mapperBeanName + ".selectList(query);");
+            bw.write("\t\tList<" + tableInfo.getBeanName() + "> list = findListByQuery(query);");
             bw.newLine();
             bw.write("\t\tPaginationResultVo<" + tableInfo.getBeanName() + "> result = new PaginationResultVo<"
                     + tableInfo.getBeanName()
