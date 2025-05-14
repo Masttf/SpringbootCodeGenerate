@@ -204,17 +204,13 @@ public class BuildMapperXml {
 
             bw.write("\t<!-- 插入(匹配有效值) -->");
             bw.newLine();
-            bw.write("\t<insert id=\"insert\">");
-            bw.newLine();
-            if (autoIncrease != null) {
-                bw.write("\t\t<selectKey keyProperty=\"" + autoIncrease.getPropertyName() + "\" resultType=\""
-                        + autoIncrease.getJavaType() + "\" order=\"AFTER\">");
-                bw.newLine();
-                bw.write("\t\t\tSELECT LAST_INSERT_ID()");
-                bw.newLine();
-                bw.write("\t\t</selectKey>");
-                bw.newLine();
+            if(autoIncrease != null) {
+                bw.write("\t<insert id=\"insert\" useGeneratedKeys=\"true\" keyProperty=\"" + autoIncrease.getPropertyName()
+                        + "\">");
+            } else {
+                bw.write("\t<insert id=\"insert\">");
             }
+            bw.newLine();
             bw.write("\t\tINSERT INTO " + tableInfo.getTableName());
             bw.newLine();
             bw.write("\t\t<trim prefix=\"(\" suffix=\")\" suffixOverrides=\",\">");
